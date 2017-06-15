@@ -1,0 +1,27 @@
+﻿
+<div id="dashboard" style="width:100%; padding:10px 30px">
+    <div style="clear:both; display:block;">
+        <h2 class="header">基础服务</h2>
+        <div class="app" url="/organ">
+            <div class="appinfo"><img src="http://weback.cn/static/icons/setting.png" alt="" /><h1>组织机构信息</h1></div>
+            <div class="appdesc"><p>使用本平台前，请先在此处设置您的组织机构信息。</p></div>
+        </div>
+        <div class="app red" onclick="showFrame('http://imember.wlniao.com','人员管理')">
+            <div class="appinfo"><img src="http://weback.cn/static/icons/setting.png" alt="" /><h1>人员管理</h1></div>
+            <div class="appdesc"><p>管理或同步您的人员及组织信息。</p></div>
+        </div>
+        <div class="app green" onclick="showFrame('http://www.baidu.com')">
+            <div class="appinfo"><img src="http://weback.cn/static/icons/setting.png" alt="" /><h1>帐号接入信息</h1></div>
+            <div class="appdesc"><p>使用本平台前，请使用本模块中的内容前往公众平台完成接入操作。</p></div>
+        </div>
+        <div class="app blue">
+            <div class="appinfo"><img src="http://weback.cn/static/icons/setting.png" alt="" /><h1>帐号接入信息</h1></div>
+            <div class="appdesc"><p>使用本平台前，请使用本模块中的内容前往公众平台完成接入操作。</p></div>
+        </div>
+    </div>
+    <div style="clear:both; display:block;">
+        <h2 class="header">我的应用&nbsp;<a onclick="showFrame('/appbox','@ViewData["AppboxName"]')" style="vertical-align:baseline;line-height:18px;color:cornflowerblue;">+<font style="font-size:12px;line-height:18px;">&nbsp;应用中心</font></a></h2>
+        @ViewData["MyApps"]
+    </div>
+</div>
+<div id="mainFrame" style="width:100%;"></div>

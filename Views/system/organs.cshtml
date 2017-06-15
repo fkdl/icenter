@@ -1,0 +1,185 @@
+﻿<div id="app"><router-view></router-view></div>
+<template id="app-list">
+    <div class="wln">
+        <div class="wln-menu">
+            <el-button type="primary" size="small" onclick="router.push('/system/organs/add')" style="float:right;">新增机构</el-button>
+            <div class="wln-subtitle">组织机构<span>机构总数：50</span></div>
+        </div>
+        <el-table :data="rows" :empty-text="message" border style="width: 100%">
+            <el-table-column width="40" align="center" type="index"></el-table-column>
+            <el-table-column width="150" property="account" label="登录帐号"></el-table-column>
+            <el-table-column label="姓名">
+                <template scope="scope">
+                    <el-popover trigger="hover" placement="left">
+                        <p>姓名: {{ scope.row.name }}</p>
+                        <p>职位: {{ scope.row.position }}</p>
+                        <p>工号: {{ scope.row.jobnumber }}</p>
+                        <p>手机号码: {{ scope.row.mobile }}</p>
+                        <p>企业邮箱: {{ scope.row.orgemail }}</p>
+                        <div slot="reference" class="name-wrapper">{{ scope.row.name }}</div>
+                    </el-popover>
+                </template>
+            </el-table-column>
+            <el-table-column width="70" align="center" label="状态">
+                <template scope="scope">
+                    <el-tag type="primary" v-if="scope.row.status==='1'">正常</el-tag>
+                    <el-tag type="gray" v-else>停用</el-tag>
+                </template>
+            </el-table-column>
+            <el-table-column width="190" align="center" property="create" label="添加时间"></el-table-column>
+            <el-table-column width="150" label="操作">
+                <template scope="scope">
+                    <el-button size="small" @@click="handleEdit(scope.row)">编辑</el-button>
+                    <el-button size="small" type="danger" @@click="handleDelete(scope.row)">删除</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <el-pagination @@size-change="sizeChange" @@current-change="currentChange" layout="total, sizes, prev, pager, next, jumper" :current-page="index" :page-size="size" :total="total"></el-pagination>
+    </div>
+</template>
+<template id="app-form">
+    <div class="wln">
+        <el-row :gutter="10">
+            <el-col :xs="12" :sm="10" :md="9" :lg="6">
+                <el-form ref="form" v-model="form" label-width="140px">
+                    <el-form-item label="机构简称">
+                        <el-input v-model="form.name" placeholder="尽量少于5个汉字"></el-input>
+                    </el-form-item>
+                    <el-form-item label="机构全称">
+                        <el-input v-model="form.fullname" placeholder=""></el-input>
+                    </el-form-item>
+                    <el-form-item label="机构类型">
+                        <el-select v-model="form.type" placeholder="请选择">
+                            <el-option v-for="item in types"
+                                       :key="item.value"
+                                       :label="item.label"
+                                       :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="排序">
+                        <el-input v-model="form.sort" placeholder=""></el-input>
+                    </el-form-item>
+                    <el-form-item label="状态">
+                        <el-switch on-text="启用" off-text="停用" on-value="1" off-value="0" v-model="form.state"></el-switch>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @@click="onSubmit">提交</el-button>
+                        <el-button onclick="router.push('/system/organs')">返回</el-button>
+                    </el-form-item>
+                </el-form>
+            </el-col>
+            <el-col :xs="6" :sm="6" :md="6" :lg="4">
+                <div class="grid-content bg-purple-light"></div>
+            </el-col>
+            <el-col :xs="0" :sm="0" :md="1" :lg="8">
+                <div class="grid-content bg-purple"></div>
+            </el-col>
+        </el-row>
+    </div>
+</template>
+<script type="text/javascript">
+    var appList = Vue.extend({
+        template: '#app-list',
+        data: function () { return emptyPager },
+        methods: {
+            refresh() {
+                var _self = this;
+                $.getJSON(location.pathname, { 'do': 'list', page: _self.index, rows: _self.size, key: _self.key }, function (rlt) {
+                    _self.message = rlt.message;
+                    _self.total = rlt.total;
+                    _self.index = rlt.index;
+                    _self.size = rlt.size;
+                    _self.rows = rlt.rows;
+                });
+            },
+            search(event) { 
+                if (event.keyCode == 13) {
+                    this.refresh()
+                }
+            },
+            sizeChange(val) {
+                emptyPager.size = val;
+                this.refresh();
+            },
+            currentChange(val) {
+                emptyPager.index = val;
+                this.refresh();
+            },
+            handleEdit(row) {
+                router.push('/system/organs/edit?id=' + row.id);
+            },
+            handleDelete(row) {
+                this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    var _self = this;
+                    $.getJSON(location.pathname, { 'do': 'del', id: row.id }, function (rlt) {
+                        _self.refresh();
+                        app.$message({ type: rlt.success ? 'success' : 'error', message: rlt.message });
+                    });
+                }).catch(() => {
+                    app.$message({ type: 'info', message: '删除操作已取消' });
+                });
+            }
+        }, created() {
+            this.refresh();
+        }
+    })
+    var appForm = Vue.extend({
+        template: '#app-form',
+        data: function () {
+            return {
+                form: {
+                    id: ''
+                    ,
+                    name: ''
+                    ,
+                    fullname: ''
+                    ,
+                    type: ''
+                    ,
+                    sort: ''
+                    ,
+                    state: '1'
+                },
+                types: []
+            };
+        },
+        methods: {
+            onSubmit: function () {
+                var obj = this.form;
+                $.post(location.pathname + '?do=set', obj, function (rlt) {
+                    app.$message({ type: rlt.success ? 'success' : 'error', message: rlt.message });
+                    if (rlt.success) {
+                        obj.sid = rlt.data;
+                        router.push('/system/organs');
+                    }
+                });
+            }
+        }, created() {
+            var obj = this.form;
+            obj.id = this.getParam('id');
+            if (obj.id) {
+                $.getJSON(location.pathname, { 'do': 'get', id: obj.id }, function (rlt) {
+                    obj.id = rlt.id;
+                    obj.name = rlt.name;
+                    obj.fullname = rlt.fullname;
+                    obj.type = rlt.type;
+                    obj.sort = rlt.sort;
+                    obj.state = rlt.state;
+                });
+            }
+        }
+    })
+    var router = new VueRouter({
+        mode: 'history', routes: [
+            { path: '/system/organs', component: appList }
+            , { path: '/system/organs/add', component: appForm }
+            , { path: '/system/organs/edit', component: appForm }
+        ]
+    });
+    var app = new Vue({ el: '#app', router: router });
+</script>

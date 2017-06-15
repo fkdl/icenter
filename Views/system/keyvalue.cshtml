@@ -1,0 +1,98 @@
+﻿<div id="app"><router-view></router-view></div>
+<template id="app-list">
+    <div class="wln">
+        <div class="wln-menu">
+            <el-button type="primary" size="small" onclick="router.push('/system/organ/add')" style="float:right;">新增机构</el-button>
+            <div class="wln-title">组织机构</div>
+        </div>
+        <el-input placeholder="输入关键字进行过滤" v-model="filterText" style="margin-bottom:10px;"></el-input>
+        <el-tree class="filter-tree" :data="tree" :props="defaultProps" :filter-node-method="filterNode" ref="tree" accordion @@node-click="handleNodeClick"></el-tree>
+    </div>
+</template>
+<template id="app-form">
+    <div class="wln">
+        text2:{{text}}
+    </div>
+</template>
+<script type="text/javascript">
+    var appList = Vue.extend({
+        template: '#app-list',
+        watch: {
+            filterText(val) {
+                this.$refs.tree.filter(val);
+            }
+        },
+        methods: {
+            handleNodeClick(data) {
+                console.log(data);
+            },
+            filterNode(value, data) {
+                if (value) {
+                    return data.label.indexOf(value) !== -1;
+                } else {
+                    return true
+                }
+            }
+        },
+        data: function () {
+            return {
+                text: 'Hello, vue list!',
+                filterText: '',
+                tree: [{
+                    label: '一级 1',
+                    children: [{
+                        label: '二级 1-1',
+                        children: [{
+                            label: '三级 1-1-1'
+                        }]
+                    }]
+                }, {
+                    label: '一级 2',
+                    children: [{
+                        label: '二级 2-1',
+                        children: [{
+                            label: '三级 2-1-1'
+                        }]
+                    }, {
+                        label: '二级 2-2',
+                        children: [{
+                            label: '三级 2-2-1'
+                        }]
+                    }]
+                }, {
+                    label: '一级 3',
+                    children: [{
+                        label: '二级 3-1',
+                        children: [{
+                            label: '三级 3-1-1'
+                        }]
+                    }, {
+                        label: '二级 3-2',
+                        children: [{
+                            label: '三级 3-2-1'
+                        }]
+                    }]
+                }],
+                defaultProps: {
+                    children: 'children',
+                    label: 'label'
+                }
+            }
+        }
+    })
+    var appForm = Vue.extend({
+        template: '#app-form',
+        data: function () {
+            return {
+                text: 'Hello, vue form'
+            }
+        }
+    })
+    var router = new VueRouter({
+        mode: 'history', routes: [
+            { path: '/system/organ', component: appList }
+            , { path: '/system/organ/add', component: appForm }
+        ]
+    });
+    var app = new Vue({ el: '#app', router: router });
+</script>

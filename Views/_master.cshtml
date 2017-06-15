@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <title>Wlniao.i</title>
+    <link rel="stylesheet" href="/oem/style.css" />
+    <link rel="stylesheet" href="/vue/2.5.3/element-ui/lib/theme-default/index.css">
+    <script type="text/javascript" src="/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/vue/2.5.3/vue.min.js"></script>
+    <script type="text/javascript" src="/vue/2.5.3/vue-router.js"></script>
+    <script type="text/javascript" src="/vue/2.5.3/vue-xcenter.js"></script>
+    <script type="text/javascript" src="/vue/2.5.3/element-ui/lib/index.js"></script>
+    <script type="text/javascript" src="//at.alicdn.com/t/font_vhxbi8ao0yxy9zfr.js"></script>
+</head>
+<body>
+    <div id="main">
+        <div id="left" onselectstart="return false;">
+            <div class="logo"><img src="/oem/logo.png" style="max-width:168px;max-height:60px;vertical-align:middle;" /></div>
+            <div class="menu" id="menu">
+                <div class="menu-group" v-for="group in groups">
+                    <h2 class="menu-title">{{group.title}}</h2>
+                    <div v-for="item in group.items">
+                        <div v-if="item.sub">
+                            <a class="menu-item has-sub" v-bind:class="{'active':item.open}" @@click="submenu(item,$event)">
+                                <svg class="icon min">
+                                    <use xlink:href="#icon-down" v-if="item.open"></use>
+                                    <use xlink:href="#icon-right" v-else></use>
+                                </svg>
+                                <svg class="icon" v-if="item.icon.indexOf(':') < 0"><use v-bind:xlink:href="'#icon-' + item.icon"></use></svg>
+                                <img class="icon" :src="item.icon" v-else />
+                                <span class="text">{{item.name}}</span>
+                            </a>
+                            <div class="menu-item-container" v-bind:class="{'no-hide':item.open}">
+                                <router-link class="menu-item menu-item-sub" :to="sub.link" v-for="sub in item.sublist">
+                                    <svg class="icon" v-if="sub.icon.indexOf(':') < 0"><use v-bind:xlink:href="'#icon-' + sub.icon"></use></svg>
+                                    <img class="icon" :src="sub.icon" v-else />
+                                    <span class="text">{{sub.name}}</span>
+                                </router-link>
+                            </div>
+                        </div>
+                        <router-link class="menu-item" :to="item.link" v-else>
+                            <svg class="icon" v-if="item.icon.indexOf(':') < 0"><use v-bind:xlink:href="'#icon-' + item.icon"></use></svg>
+                            <img class="icon" :src="item.icon" v-else />
+                            <span class="text">{{item.name}}</span>
+                        </router-link>
+                    </div>
+                </div>
+            </div>
+            <div style="width:180px;bottom:5px;text-align:center;font-size:12px;color:Gray;position:absolute;">Powered by Wlniao</div>
+        </div>
+        <div id="center">
+            <div class="topbar clearfix">
+
+            </div>
+            @RenderBody()
+        </div>
+    </div>
+    @*<div id="right">
+        <div id="noticeToggle"><div onclick="$('#noticeControl').toggle()" style="height:50px;width:6px;background:#FFBDBD;font-size:0px;cursor:pointer;">&nbsp;</div></div>
+        <div id="noticeControl">
+            <div style="padding:168px 0px;text-align:center;color:#999999;font-size:12px;font-family:微软雅黑;">待办事项</div>
+        </div>
+    </div>*@
+    <script type="text/javascript">
+        $.getJSON('/rest/menu', {}, function (data) {
+            _data = data;
+            new Vue({
+                el: '#menu', data: data, router: xRouter, created() { this.checkLogin() }, methods: {
+                    submenu: function (sub, event) {
+                        sub.open = !sub.open;
+                    }
+                }
+            });
+            var active = $('.menu-item[href="' + location.pathname + '"]');
+            active.addClass('router-link-exact-active')
+            if (active.hasClass('menu-item-sub')) {
+                active.parent().prev()[0].click()
+            }
+        });
+    </script>
+</body>
+</html>
