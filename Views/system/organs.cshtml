@@ -7,26 +7,28 @@
         </div>
         <el-table :data="rows" :empty-text="message" border style="width: 100%">
             <el-table-column width="40" align="center" type="index"></el-table-column>
-            <el-table-column width="150" property="account" label="登录帐号"></el-table-column>
-            <el-table-column label="姓名">
+            <el-table-column width="160" align="center" label="名称">
                 <template scope="scope">
-                    <el-popover trigger="hover" placement="left">
-                        <p>姓名: {{ scope.row.name }}</p>
-                        <p>职位: {{ scope.row.position }}</p>
-                        <p>工号: {{ scope.row.jobnumber }}</p>
-                        <p>手机号码: {{ scope.row.mobile }}</p>
-                        <p>企业邮箱: {{ scope.row.orgemail }}</p>
+                    <el-popover trigger="hover" placement="right">
+                        <p>编号: {{ scope.row.id }}</p>
+                        <p>全称: {{ scope.row.fullname }}</p>
                         <div slot="reference" class="name-wrapper">{{ scope.row.name }}</div>
                     </el-popover>
                 </template>
             </el-table-column>
+            <el-table-column label="分类" property="type"></el-table-column>
+            <el-table-column width="120" align="center" label="下属机构">
+                <template scope="scope">
+                    <el-tag type="gray" v-if="scope.row.child===0">无</el-tag>
+                    <el-tag type="primary" v-else>有</el-tag>
+                </template>
+            </el-table-column>
             <el-table-column width="70" align="center" label="状态">
                 <template scope="scope">
-                    <el-tag type="primary" v-if="scope.row.status==='1'">正常</el-tag>
+                    <el-tag type="primary" v-if="scope.row.state==='1'">正常</el-tag>
                     <el-tag type="gray" v-else>停用</el-tag>
                 </template>
             </el-table-column>
-            <el-table-column width="190" align="center" property="create" label="添加时间"></el-table-column>
             <el-table-column width="150" label="操作">
                 <template scope="scope">
                     <el-button size="small" @@click="handleEdit(scope.row)">编辑</el-button>
@@ -85,7 +87,7 @@
         methods: {
             refresh() {
                 var _self = this;
-                $.getJSON(location.pathname, { 'do': 'list', page: _self.index, rows: _self.size, key: _self.key }, function (rlt) {
+                $.getJSON(location.pathname, { 'do': 'pager', page: _self.index, rows: _self.size, key: _self.key }, function (rlt) {
                     _self.message = rlt.message;
                     _self.total = rlt.total;
                     _self.index = rlt.index;
