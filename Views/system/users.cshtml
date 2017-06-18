@@ -3,7 +3,10 @@
     <div class="wln">
         <div class="wln-menu">
             <input type="text" v-model="key" :value="key" @@keydown="search($event)" placeholder="按回车键进行查找" style="float:right" />
-            <el-button type="primary" size="small" onclick="router.push('/system/users/add')">新增用户</el-button>
+            <div class="wln-subtitle">
+                <el-button type="primary" size="small" onclick="router.push('/system/users/add')">新增用户</el-button>
+                <span>授权总数：@Html.Raw(ViewBag.wKeyUser)</span>
+            </div>
         </div>
         <el-table :data="rows" :empty-text="message" border style="width: 100%">
             <el-table-column width="40" align="center" type="index"></el-table-column>

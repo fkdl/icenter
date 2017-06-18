@@ -3,7 +3,7 @@
     <div class="wln">
         <div class="wln-menu">
             <el-button type="primary" size="small" onclick="router.push('/system/organs/add')" style="float:right;">新增机构</el-button>
-            <div class="wln-subtitle">组织机构<span>授权总数：50</span></div>
+            <div class="wln-subtitle">组织机构<span>授权总数：@Html.Raw(ViewBag.wKeyOrgan)</span></div>
         </div>
         <el-table :data="rows" :empty-text="message" border style="width: 100%">
             <el-table-column width="40" align="center" type="index"></el-table-column>

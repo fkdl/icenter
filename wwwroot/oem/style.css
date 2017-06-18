@@ -30,7 +30,7 @@ a:hover,a:focus {opacity:0.8}
 .wln {width:97%;margin:10px auto;background:#ffffff;border:10px solid #ffffff;}
 .wln-title {border-left:2px solid #0099cc;padding-left:6px;font-size:20px;line-height:18px;}
 .wln-subtitle {font-size:26px;line-height:30px;}
-.wln-subtitle > span {font-size:15px;margin-left:15px;color:#666;vertical-align:top;}
+.wln-subtitle > span {font-size:15px;margin-left:15px;color:#666;vertical-align:bottom;}
 .wln-menu {height:30px;line-height:30px;padding:10px 0px;}
 .wln-menu::after {clear:both;font-size:0;content:' ';}
 .wln-menu .wln-title {display:inline-block;vertical-align:middle;}
