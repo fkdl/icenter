@@ -1,0 +1,77 @@
+﻿<div id="app"><router-view></router-view></div>
+<template id="app-list">
+    <div class="wln">
+        <div class="wln-menu">
+            <div class="wln-subtitle">应用管理</div>
+        </div>
+        <el-table :data="rows" :empty-text="message" border style="width: 100%">
+            <el-table-column width="40" align="center" type="index"></el-table-column>
+            <el-table-column width="80" align="center" label="App" property="app"></el-table-column>
+            <el-table-column width="150" property="name" label="名称"></el-table-column>
+            <el-table-column></el-table-column>
+            <el-table-column width="150" align="center" label="操作">
+                <template scope="scope">
+                    <el-button size="small" type="danger" @@click="handleDelete(scope.row)">删除应用</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <el-pagination @@size-change="sizeChange" @@current-change="currentChange" layout="total, sizes, prev, pager, next, jumper" :current-page="index" :page-size="size" :total="total"></el-pagination>
+    </div>
+</template>
+<template id="app-create"></template>
+<script type="text/javascript">
+    var appList = Vue.extend({
+        template: '#app-list',
+        data: function () { return emptyPager },
+        methods: {
+            refresh() {
+                var _self = this;
+                $.getJSON(location.pathname, { 'do': 'pager', page: _self.index, rows: _self.size, key: _self.key }, function (rlt) {
+                    _self.message = rlt.message;
+                    _self.total = rlt.total;
+                    _self.index = rlt.index;
+                    _self.size = rlt.size;
+                    _self.rows = rlt.rows;
+                });
+            },
+            search(event) { 
+                if (event.keyCode == 13) {
+                    this.refresh()
+                }
+            },
+            sizeChange(val) {
+                emptyPager.size = val;
+                this.refresh();
+            },
+            currentChange(val) {
+                emptyPager.index = val;
+                this.refresh();
+            },
+            handleDelete(row) {
+                this.$confirm('应用删除后相关功能将无法使用, 是否继续?', '提示', {
+                    confirmButtonText: '删除',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    var _self = this;
+                    $.getJSON(location.pathname, { 'do': 'del', app: row.app }, function (rlt) {
+                        _self.refresh();
+                        app.$message({ type: rlt.success ? 'success' : 'error', message: rlt.message });
+                    });
+                }).catch(() => {
+                    app.$message({ type: 'info', message: '删除操作已取消' });
+                });
+            }
+        }, created() {
+            this.refresh();
+        }
+    })
+    var appCreate = Vue.extend({ template: '#app-create' });
+    var router = new VueRouter({
+        mode: 'history', routes: [
+            { path: '/system/apps', component: appList }
+            , { path: '/system/apps/create', component: appCreate }
+        ]
+    });
+    var app = new Vue({ el: '#app', router: router });
+</script>
