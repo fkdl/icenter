@@ -187,10 +187,10 @@
                         if (!ctxData) {
                             ctxData = obj;
                         } else if (obj.id) {
-                            ctxData.key = obj.key;
+                            ctxData.key = obj.parent + '-' + obj.key;
                             ctxData.label = obj.label;
                         } else if (ctxStore) {
-                            ctxStore.append({ id: rlt.data, app: obj.app, key: obj.key, label: obj.label }, ctxData);
+                            ctxStore.append({ id: rlt.data, app: obj.app, key: obj.parent + '-' + obj.key, label: obj.label }, ctxData);
                         }
                         router.push('/system/enums');
                     }

@@ -147,7 +147,7 @@
                     ,
                     state: '1'
                 },
-                types: []
+                types: @Html.Raw(ViewBag.OrganType)
             };
         },
         methods: {
@@ -166,12 +166,16 @@
             obj.id = this.getParam('id');
             if (obj.id) {
                 $.getJSON(location.pathname, { 'do': 'get', id: obj.id }, function (rlt) {
-                    obj.id = rlt.id;
-                    obj.name = rlt.name;
-                    obj.fullname = rlt.fullname;
-                    obj.type = rlt.type;
-                    obj.sort = rlt.sort;
-                    obj.state = rlt.state;
+                    if (rlt.success) {
+                        obj.id = rlt.data.id;
+                        obj.name = rlt.data.name;
+                        obj.fullname = rlt.data.fullname;
+                        obj.type = rlt.data.type;
+                        obj.sort = rlt.data.sort;
+                        obj.state = rlt.data.state;
+                    } else {
+                        app.$message({ type: 'info', message: rlt.message });
+                    }
                 });
             }
         }
