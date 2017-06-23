@@ -2,8 +2,8 @@
 <template id="app-list">
     <div class="wln">
         <div class="wln-menu">
-            <el-button type="primary" size="small" onclick="router.push('/system/organs/add')" style="float:right;">新增机构</el-button>
-            <div class="wln-subtitle">组织机构<span>授权总数：@Html.Raw(ViewBag.wKeyOrgan)</span></div>
+            <el-button type="primary" size="small" onclick="router.push('/system/organs/add')" style="float:right;">@Html.Raw("新增" + ViewBag.LabelOrgan)</el-button>
+            <div class="wln-subtitle">@Html.Raw(ViewBag.LabelOrgan)管理<span>授权总数：@Html.Raw(ViewBag.wKeyOrgan)</span></div>
         </div>
         <el-table :data="rows" :empty-text="message" border style="width: 100%">
             <el-table-column width="40" align="center" type="index"></el-table-column>
@@ -17,12 +17,6 @@
                 </template>
             </el-table-column>
             <el-table-column label="分类" property="type"></el-table-column>
-            <el-table-column width="120" align="center" label="下属机构">
-                <template scope="scope">
-                    <el-tag type="gray" v-if="scope.row.child===0">无</el-tag>
-                    <el-tag type="primary" v-else>有</el-tag>
-                </template>
-            </el-table-column>
             <el-table-column width="70" align="center" label="状态">
                 <template scope="scope">
                     <el-tag type="primary" v-if="scope.row.state==='1'">正常</el-tag>
@@ -44,13 +38,13 @@
         <el-row :gutter="10">
             <el-col :xs="12" :sm="10" :md="9" :lg="6">
                 <el-form ref="form" v-model="form" label-width="140px">
-                    <el-form-item label="机构简称">
+                    <el-form-item label="@Html.Raw(ViewBag.LabelOrgan)简称">
                         <el-input v-model="form.name" placeholder="尽量少于5个汉字"></el-input>
                     </el-form-item>
-                    <el-form-item label="机构全称">
+                    <el-form-item label="@Html.Raw(ViewBag.LabelOrgan)全称">
                         <el-input v-model="form.fullname" placeholder=""></el-input>
                     </el-form-item>
-                    <el-form-item label="机构类型">
+                    <el-form-item label="@Html.Raw(ViewBag.LabelOrgan)类型">
                         <el-select v-model="form.type" placeholder="请选择">
                             <el-option v-for="item in types" :label="item.label" :value="item.value"></el-option>
                         </el-select>
@@ -91,7 +85,7 @@
                     _self.rows = rlt.rows;
                 });
             },
-            search(event) { 
+            search(event) {
                 if (event.keyCode == 13) {
                     this.refresh()
                 }
@@ -108,7 +102,7 @@
                 router.push('/system/organs/edit?id=' + row.id);
             },
             handleDelete(row) {
-                this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
+                this.$confirm('此操作将永久删除该' + '@Html.Raw(ViewBag.LabelOrgan)', '是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'

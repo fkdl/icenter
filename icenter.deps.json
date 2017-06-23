@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v1.6",
-    "signature": "9f47f22be3a9f565bd924e3d419f183fdf57f7ee"
+    "signature": "f4fd307031c9924279990168cac181b4e3373093"
   },
   "compilationOptions": {
     "defines": [
@@ -1917,7 +1917,7 @@
           "lib/netstandard1.0/System.Text.Encodings.Web.dll": {}
         }
       },
-      "wlniao.xcore/1.7.8": {
+      "wlniao.xcore/1.8.0-beta3": {
         "dependencies": {
           "Microsoft.AspNetCore": "1.1.2",
           "Microsoft.AspNetCore.Hosting": "1.1.2",
@@ -1941,7 +1941,7 @@
       "wlniao.i/1.0.0-beta-70623": {
         "dependencies": {
           "Microsoft.NETCore.App": "1.1.2",
-          "Wlniao.XCore": "1.7.8"
+          "Wlniao.XCore": "1.8.0-beta3"
         },
         "runtime": {
           "wlniao.i.dll": {}
@@ -4449,12 +4449,12 @@
       "path": "system.text.encodings.web/4.3.1",
       "hashPath": "system.text.encodings.web.4.3.1.nupkg.sha512"
     },
-    "wlniao.xcore/1.7.8": {
+    "wlniao.xcore/1.8.0-beta3": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-BUBqrsEbkYFdd5ZhbdeaYSgYkfV0nIwnjBBcaT1OyzT2LvnSVEV6qOfoaPPnqTwW60eLjG/BFK+1icVe3Cs8UA==",
-      "path": "wlniao.xcore/1.7.8",
-      "hashPath": "wlniao.xcore.1.7.8.nupkg.sha512"
+      "sha512": "sha512-H6btbChi3f7FXldvY9/YS5d6vFSxoRvvzZos6rggKqNdF2yub5jRX1MYyWVwj/iN86s+8P5B/6vjYBsZvO6+Iw==",
+      "path": "wlniao.xcore/1.8.0-beta3",
+      "hashPath": "wlniao.xcore.1.8.0-beta3.nupkg.sha512"
     },
     "wlniao.i/1.0.0-beta-70623": {
       "type": "project",
