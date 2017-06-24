@@ -25,9 +25,9 @@
             </el-table-column>
             <el-table-column width="320" align="center" label="权限管理">
                 <template scope="scope">
-                    <el-button size="small" type="warning" @@click="rightSystem(scope.row)">@Html.Raw(ViewBag.LabelOrgan)权限</el-button>
-                    <el-button size="small" type="warning" @@click="rightSystem(scope.row)">@Html.Raw(ViewBag.LabelApp)权限</el-button>
-                    <el-button size="small" type="warning" @@click="rightSystem(scope.row)">系统权限</el-button>
+                    <el-button size="small" type="warning" @@click="rightOrgan(scope.row)">@Html.Raw(ViewBag.LabelOrgan)权限</el-button>
+                    <el-button size="small" type="warning" @@click="rightApp(scope.row)">@Html.Raw(ViewBag.LabelApp)权限</el-button>
+                    <el-button size="small" type="warning" @@click="rightSys(scope.row)">系统权限</el-button>
                 </template>
             </el-table-column>
             <el-table-column width="70" align="center" label="状态">
@@ -136,8 +136,14 @@
                 emptyPager.index = val;
                 this.refresh();
             },
-            rightSystem(row) {
-                router.push('/system/rights/sys?sid=' + row.sid);
+            rightOrgan(row) {
+                location.href = '/system/rights/organs?sid=' + row.sid;
+            },
+            rightApp(row) {
+                location.href = '/system/rights/app?sid=' + row.sid;
+            },
+            rightSys(row) {
+                location.href = '/system/rights/sys?sid=' + row.sid;
             },
             handleEdit(row) {
                 router.push('/system/account/edit?sid=' + row.sid);

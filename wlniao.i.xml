@@ -250,6 +250,42 @@
             </summary>
             <param name="filterContext"></param>
         </member>
+        <member name="M:Wlniao.i.iController.RightForViewer(System.String,System.String,System.String)">
+            <summary>
+            检查机构数据查看权限
+            </summary>
+            <param name="Organ"></param>
+            <param name="Code"></param>
+            <param name="Sid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Wlniao.i.iController.RightForEditer(System.String,System.String,System.String)">
+            <summary>
+            检查机构录入修改权限
+            </summary>
+            <param name="Organ"></param>
+            <param name="Code"></param>
+            <param name="Sid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Wlniao.i.iController.RightForVerify(System.String,System.String,System.String)">
+            <summary>
+            检查机构流程审核权限
+            </summary>
+            <param name="Organ"></param>
+            <param name="Code"></param>
+            <param name="Sid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Wlniao.i.iController.RightForDelete(System.String,System.String,System.String)">
+            <summary>
+            检查机构数据删除权限
+            </summary>
+            <param name="Organ"></param>
+            <param name="Code"></param>
+            <param name="Sid"></param>
+            <returns></returns>
+        </member>
         <member name="T:Wlniao.i.Organ">
             <summary>
             下属机构
@@ -306,9 +342,17 @@
         </member>
         <member name="M:Wlniao.i.Organ.GetList(Wlniao.i.iCommon)">
             <summary>
-            根据类型获取机构列表
+            获取机构列表
             </summary>
             <param name="icommon"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Wlniao.i.Organ.GetList(Wlniao.i.iCommon,System.String)">
+            <summary>
+            根据用户权限获取机构列表
+            </summary>
+            <param name="icommon"></param>
+            <param name="sid"></param>
             <returns></returns>
         </member>
     </members>
