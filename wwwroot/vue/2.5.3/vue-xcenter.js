@@ -2,7 +2,7 @@
 if (navigator.appName == "Microsoft Internet Explorer" && navigator.appVersion.split(";")[1].replace(/[ ]/g, "") == "MSIE6.0" || navigator.appName == "Microsoft Internet Explorer" && navigator.appVersion.split(";")[1].replace(/[ ]/g, "") == "MSIE7.0" || navigator.appName == "Microsoft Internet Explorer" && navigator.appVersion.split(";")[1].replace(/[ ]/g, "") == "MSIE8.0") {
     alert("Your browser version is too low, please use IE9 and above or Chrome, Firefox and other browsers!");
 }
-var emptyPager = { size: 10, index: 1, total: 0, rows: [], key: '', message: '数据加载中' };
+var emptyPager = { size: 10, index: 1, total: 0, rows: [], key: '', message: '数据加载中', loading: false };
 Vue.prototype.getParam = (key) => {
     var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
     var r = window.location.search.substr(1).match(reg);
