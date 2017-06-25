@@ -15,7 +15,7 @@
 <body>
     <div id="main">
         <div id="left" onselectstart="return false;">
-            <div class="logo"><img src="/oem/logo.png" style="max-width:168px;max-height:60px;vertical-align:middle;" /></div>
+            <div class="logo"><img src="/oem/logo.png" onclick="Reload()" style="max-width:168px;max-height:60px;vertical-align:middle;cursor:pointer;" /></div>
             <div class="menu" id="menu" style="display:none">
                 <div class="menu-group" v-for="group in groups">
                     <h2 class="menu-title">{{group.title}}</h2>
@@ -60,7 +60,16 @@
         <div style="width:100%;bottom:5px;text-align:center;font-size:12px;color:Gray;position:absolute;">Powered by Wlniao</div>
     </div>*@
     <script type="text/javascript">
-        $.getJSON('/rest/menu', {}, function (data) {
+        var menuStr = sessionStorage.getItem('menu');
+        if (menuStr) {
+            setMenu(JSON.parse(menuStr));
+        } else {
+            $.getJSON('/menu', {}, function (rlt) {
+                setMenu(rlt);
+                sessionStorage.setItem('menu', JSON.stringify(rlt));
+            });
+        }
+        function setMenu(data) {
             _data = data;
             new Vue({
                 el: '#menu', data: data, router: xRouter, created() {
@@ -77,7 +86,11 @@
             if (active.hasClass('menu-item-sub')) {
                 active.parent().prev()[0].click()
             }
-        });
+        }
+        function Reload() {
+            sessionStorage.removeItem('menu');
+            location.reload();
+        }
     </script>
 </body>
 </html>

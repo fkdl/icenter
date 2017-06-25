@@ -150,6 +150,7 @@ border: 1px solid transparent;
                     clearTimeout(out);
                     if (json.success) {
                         $('#tips').html(json.message).css({ 'color': 'green' });
+                        sessionStorage.removeItem('menu');
                         localStorage.setItem("account", eUid.value);
                         history.replaceState(null, '', '/');
                         location.reload();

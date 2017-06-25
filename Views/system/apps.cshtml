@@ -42,6 +42,7 @@
                     var _self = this;
                     $.getJSON(location.pathname, { 'do': 'del', app: row.app }, function (rlt) {
                         _self.refresh();
+                        sessionStorage.removeItem('menu');
                         app.$message({ type: rlt.success ? 'success' : 'error', message: rlt.message });
                     });
                 }).catch(() => {
